@@ -17,16 +17,31 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:background="#f7f4f4"
+    android:layout_marginTop="0dp"
+    android:background="#e7e0e0"
+    android:orientation="vertical"
     >
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="this is home fragment."
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="直播列表"
+        android:background="#ffffff"
+        android:padding="10dp"
+        android:textColor="#1673de"
 
-        />
+    />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_liveList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+
 </LinearLayout>
 
 

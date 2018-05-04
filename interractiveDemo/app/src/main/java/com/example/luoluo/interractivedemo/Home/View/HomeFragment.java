@@ -5,14 +5,18 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.luoluo.interractivedemo.Model.LiveModel;
 import com.example.luoluo.interractivedemo.R;
 import com.example.luoluo.interractivedemo.Util.BannerAdapter;
+import com.example.luoluo.interractivedemo.Util.LiveListRecyclerAdapter;
 import com.example.luoluo.interractivedemo.Util.UIHelper;
 
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
 
     public static final String TAG = "HomeFragment";
     public ViewPager mBannerPager;
+    public RecyclerView mLiveListRecycler;
     public List<Fragment> imageFragments;
     @Nullable
     @Override
@@ -30,8 +35,10 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
 
         View view = inflater.inflate(R.layout.fragment_home2,container,false);
         mBannerPager = view.findViewById(R.id.viewPager_banner);
+        mLiveListRecycler = view.findViewById(R.id.recycler_liveList);
         imageFragments = new ArrayList<>();
         createBannerImageUI();
+        initLiveListRecycleView();
         return view;
     }
 
@@ -59,6 +66,26 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
         mBannerPager.setOffscreenPageLimit(3);
         mBannerPager.addOnPageChangeListener(this);
 
+    }
+
+    public void initLiveListRecycleView(){
+
+        int[] images = {R.drawable.icon_alpha,R.drawable.icon_monkon,R.drawable.icon_rabit};
+        String[] titles = {"大司马来报道","胡歌来巡山","中原一点红"};
+        ArrayList<LiveModel>models = new ArrayList<>();
+        for (int i =0 ;i<images.length;i++){
+            LiveModel model = new LiveModel();
+            model.imageID = images[i];
+            model.titleName = titles[i];
+            models.add(model);
+        }
+
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        mLiveListRecycler.setLayoutManager(layoutManager);
+
+        LiveListRecyclerAdapter liveListRecyclerAdapter = new LiveListRecyclerAdapter(models);
+        mLiveListRecycler.setAdapter(liveListRecyclerAdapter);
     }
 
     @Override
