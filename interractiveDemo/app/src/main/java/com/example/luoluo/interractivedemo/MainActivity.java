@@ -24,6 +24,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,TabLayout.OnTabSelectedListener{
 
     public static final String TAG = "MainActivity";
+
     public TabLayout mTabLayout;
     private ViewPager mPager;
     //每一个界面

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:ignore="Suspicious0dp"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+        
+        <ImageView
+            android:id="@+id/iv_first_one_one"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/banner_four"
+            />
+        <TextView
+            android:id="@+id/tv_first_one_one_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="this is a fist image live"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:ignore="Suspicious0dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/iv_first_two_one"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/banner_three"
+            />
+        <TextView
+            android:id="@+id/tv_first_two_one_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="this is second image live"
+           />
+
+    </LinearLayout>
+
+</LinearLayout>

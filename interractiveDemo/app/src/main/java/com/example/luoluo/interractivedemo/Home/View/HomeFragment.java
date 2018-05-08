@@ -13,26 +13,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.luoluo.interractivedemo.Enum.LiveItemType;
 import com.example.luoluo.interractivedemo.Model.LiveModel;
 import com.example.luoluo.interractivedemo.R;
 import com.example.luoluo.interractivedemo.Util.BannerAdapter;
+import com.example.luoluo.interractivedemo.Util.CustomViewPager;
 import com.example.luoluo.interractivedemo.Util.LiveListRecyclerAdapter;
 import com.example.luoluo.interractivedemo.Util.UIHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class HomeFragment extends Fragment implements ViewPager.OnPageChangeListener{
 
     public static final String TAG = "HomeFragment";
-    public ViewPager mBannerPager;
+    public CustomViewPager mBannerPager;
     public RecyclerView mLiveListRecycler;
     public List<Fragment> imageFragments;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        //通过LayoutInflater实列一个xml文件
+    //使用布局填充器填充xml中的布局到container容器中
         View view = inflater.inflate(R.layout.fragment_home2,container,false);
         mBannerPager = view.findViewById(R.id.viewPager_banner);
         mLiveListRecycler = view.findViewById(R.id.recycler_liveList);
@@ -42,7 +48,7 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
         return view;
     }
 
-    //添加适配器和传入数据
+    //banner图
     public void createBannerImageUI(){
 
         //动态设置宽高比例
@@ -68,15 +74,27 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
 
     }
 
+    //直播列表
     public void initLiveListRecycleView(){
 
-        int[] images = {R.drawable.icon_alpha,R.drawable.icon_monkon,R.drawable.icon_rabit};
-        String[] titles = {"大司马来报道","胡歌来巡山","中原一点红"};
+
+        //添加假数据
+        Integer[] images = {R.drawable.icon_alpha,R.drawable.icon_monkon,R.drawable.icon_rabit};
+        List<Integer>imageList = new ArrayList<>();
+        imageList.add(R.drawable.banner_three);
+        imageList.add(R.drawable.banner_one);
+        imageList.addAll(Arrays.asList(images));
+
+        Random random = new Random();
+        String[] titles = {"最热直播","大司马来报道","胡歌来巡山","中原一点红"};
         ArrayList<LiveModel>models = new ArrayList<>();
-        for (int i =0 ;i<images.length;i++){
+        for (int i =0 ;i<12;i++){
             LiveModel model = new LiveModel();
-            model.imageID = images[i];
-            model.titleName = titles[i];
+            model.type = i==0?LiveItemType.LiveItemTypeTitle:
+                    (i==1)?LiveItemType.LiveItemTypeFirst:LiveItemType.LiveItemTypeTitleSecond;
+            model.imageIDS = (model.type == LiveItemType.LiveItemTypeFirst)?imageList:
+                    imageList.subList(imageList.size()-3,imageList.size());
+            model.titleNames = titles;
             models.add(model);
         }
 

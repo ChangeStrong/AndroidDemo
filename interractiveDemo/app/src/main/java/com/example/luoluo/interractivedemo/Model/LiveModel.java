@@ -1,6 +1,12 @@
 package com.example.luoluo.interractivedemo.Model;
 
+
+import com.example.luoluo.interractivedemo.Enum.LiveItemType;
+
+import java.util.List;
+
 public class LiveModel {
-    public int imageID;
-    public  String titleName;
+    public LiveItemType type;
+    public List<Integer> imageIDS;
+    public  String[] titleNames;
 }

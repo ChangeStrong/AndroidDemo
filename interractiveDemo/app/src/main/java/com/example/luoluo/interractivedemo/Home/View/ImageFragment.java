@@ -32,6 +32,8 @@ public class ImageFragment extends Fragment {
 //        linearParams.width = UIHelper.getScreenWidth();// 控件的宽强制设成30
         linearParams.height = (int) (UIHelper.getScreenWidth()*(3.0/4.0));
         imageView.setLayoutParams(linearParams);
+
+
         return view;
     }
 }
