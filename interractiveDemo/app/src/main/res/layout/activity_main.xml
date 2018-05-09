@@ -16,7 +16,7 @@ android:layout_height="match_parent"
     android:orientation="vertical"
 tools:context=".MainActivity">
 
-    <android.support.v4.view.ViewPager
+    <com.example.luoluo.interractivedemo.Util.HomeViewPager
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/viewPager_main"
@@ -24,7 +24,7 @@ tools:context=".MainActivity">
         android:layout_weight="1"
 
         >
-    </android.support.v4.view.ViewPager>
+    </com.example.luoluo.interractivedemo.Util.HomeViewPager>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout_main"

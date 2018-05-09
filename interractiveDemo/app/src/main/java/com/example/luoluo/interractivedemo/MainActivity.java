@@ -14,7 +14,8 @@ import com.example.luoluo.interractivedemo.Home.View.HomeFragment;
 import com.example.luoluo.interractivedemo.Home.View.MeFragment;
 import com.example.luoluo.interractivedemo.Home.View.MessageListFragment;
 import com.example.luoluo.interractivedemo.Model.User;
-import com.example.luoluo.interractivedemo.Util.LLHomePagerAdapter;
+import com.example.luoluo.interractivedemo.Util.HomeViewPager;
+import com.example.luoluo.interractivedemo.Adapter.LLHomePagerAdapter;
 import com.example.luoluo.interractivedemo.Util.UIHelper;
 import com.example.luoluo.interractivedemo.databinding.ActivityMainBinding;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public static final String TAG = "MainActivity";
 
     public TabLayout mTabLayout;
-    private ViewPager mPager;
+    private HomeViewPager mPager;
     //每一个界面
     private List<Fragment> mViews;
     ActivityMainBinding mMainBinding;
@@ -57,8 +58,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mViews.add(messageListFragment);
         mViews.add(meFragment);
 
+        mPager.homeFragment = homeFragment;
         //数据传入viewpage
-        LLHomePagerAdapter homePagerAdapter = new LLHomePagerAdapter(getSupportFragmentManager(),mViews); //new  LLHomePagerAdapter(mViews);
+        LLHomePagerAdapter homePagerAdapter = new LLHomePagerAdapter(getSupportFragmentManager(),mViews);
+
+        //new  LLHomePagerAdapter(mViews);
         mPager.setAdapter(homePagerAdapter);
         mPager.setCurrentItem(0);  //初始化显示第一个页面
         // 设置ViewPager最大缓存的页面个数(cpu消耗少)

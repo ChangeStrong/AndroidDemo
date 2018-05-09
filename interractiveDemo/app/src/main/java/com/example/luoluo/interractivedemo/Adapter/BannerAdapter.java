@@ -1,4 +1,4 @@
-package com.example.luoluo.interractivedemo.Util;
+package com.example.luoluo.interractivedemo.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

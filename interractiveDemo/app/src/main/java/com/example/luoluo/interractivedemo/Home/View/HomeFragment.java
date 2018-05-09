@@ -16,12 +16,11 @@ import android.widget.LinearLayout;
 import com.example.luoluo.interractivedemo.Enum.LiveItemType;
 import com.example.luoluo.interractivedemo.Model.LiveModel;
 import com.example.luoluo.interractivedemo.R;
-import com.example.luoluo.interractivedemo.Util.BannerAdapter;
-import com.example.luoluo.interractivedemo.Util.CustomViewPager;
-import com.example.luoluo.interractivedemo.Util.LiveListRecyclerAdapter;
+import com.example.luoluo.interractivedemo.Adapter.BannerAdapter;
+import com.example.luoluo.interractivedemo.Util.BannerViewPager;
+import com.example.luoluo.interractivedemo.Adapter.LiveListRecyclerAdapter;
 import com.example.luoluo.interractivedemo.Util.UIHelper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.Random;
 public class HomeFragment extends Fragment implements ViewPager.OnPageChangeListener{
 
     public static final String TAG = "HomeFragment";
-    public CustomViewPager mBannerPager;
+    public BannerViewPager mBannerPager;
     public RecyclerView mLiveListRecycler;
     public List<Fragment> imageFragments;
     @Nullable
@@ -109,7 +108,7 @@ public class HomeFragment extends Fragment implements ViewPager.OnPageChangeList
     @Override
     public void onPageSelected(int position) {
 
-        Log.d(TAG, "onPageSelected: image position="+position);
+//        Log.d(TAG, "onPageSelected: image position="+position);
     }
 
     @Override
