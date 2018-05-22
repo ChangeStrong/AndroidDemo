@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--为某个类添加一个属性属性 name可以随便写但是最好是和类名一样-->
+    <declare-styleable name="LLCustomView">
+        <!--声明我们的属性，名称为default_min_size,取值类型为尺寸类型（dp,px等）-->
+        <attr name="default_min_size" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!--default_min_size为自定义属性-->
+    <com.example.luoluo.animationdemo.LLCustomView
+        android:id="@+id/iv_keyAnimations"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="50dp"
+        android:background="#fff000"
+        app:default_min_size="50dp"/>
+
+</LinearLayout>
