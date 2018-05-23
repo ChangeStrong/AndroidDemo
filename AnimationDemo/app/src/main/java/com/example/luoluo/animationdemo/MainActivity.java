@@ -1,31 +1,28 @@
 package com.example.luoluo.animationdemo;
 
-import android.animation.Animator;
-import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Size;
-import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import com.example.luoluo.animationdemo.Utils.CommonUtil;
+import com.example.luoluo.animationdemo.Views.LLCustomView;
 
 public class MainActivity extends AppCompatActivity {
 
     LLCustomView mCustomView;
 public String TAG = "MainActivity";
+ImageButton mMenuImageButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mCustomView = findViewById(R.id.iv_keyAnimations);
+        mMenuImageButton = findViewById(R.id.ib_menu);
         //获取屏幕像素的宽、高
         WindowManager manager = this.getWindowManager();
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -54,8 +51,7 @@ public String TAG = "MainActivity";
     @Override
     protected void onStart() {
         super.onStart();
-    CommonUtil.getWidgetSize(mCustomView);
-
+         CommonUtil.getWidgetSize(mCustomView);
     }
 
     @Override
@@ -63,19 +59,19 @@ public String TAG = "MainActivity";
         super.onResume();
 
         //监听测量方法走完后获取尺寸
-        ViewTreeObserver vto2 = mCustomView.getViewTreeObserver();
+        ViewTreeObserver vto2 = mMenuImageButton.getViewTreeObserver();
         vto2.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mCustomView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                mMenuImageButton.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 int[] startLoc = new int[2];
-                mCustomView.getLocationInWindow(startLoc);//此方法获取的高加上导航条了
-                Log.d(TAG, "onResume: "+ mCustomView.getMeasuredWidth()+" "+mCustomView.getMeasuredHeight());
+                mMenuImageButton.getLocationInWindow(startLoc);//此方法获取的高加上导航条了
+                Log.d(TAG, "onResume: "+ mMenuImageButton.getMeasuredWidth()+" "+mMenuImageButton.getMeasuredHeight());
                 Log.d(TAG, "onResume: "+startLoc[0]+" "+startLoc[1]);
-                System.out.println("图片各个角Left："+mCustomView.getLeft()
-                        +" Right："+mCustomView.getRight()+" Top："
-                        +mCustomView.getTop()+" Bottom："
-                        +mCustomView.getBottom());
+                System.out.println("图片各个角Left："+mMenuImageButton.getLeft()
+                        +" Right："+mMenuImageButton.getRight()+" Top："
+                        +mMenuImageButton.getTop()+" Bottom："
+                        +mMenuImageButton.getBottom());
             }
         });
     }
