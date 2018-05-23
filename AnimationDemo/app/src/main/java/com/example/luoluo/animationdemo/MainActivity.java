@@ -1,39 +1,42 @@
 package com.example.luoluo.animationdemo;
 
+import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Size;
+import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.ImageButton;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
 
 import com.example.luoluo.animationdemo.Utils.CommonUtil;
+import com.example.luoluo.animationdemo.Utils.PointEvaluator;
 import com.example.luoluo.animationdemo.Views.LLCustomView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     LLCustomView mCustomView;
 public String TAG = "MainActivity";
-ImageButton mMenuImageButton;
+    int mscreenWidth;
+    int mscreenHeight;
+    Point mcenterPoint;
+    List<Point>mPoints;
+ImageView mMenuImageButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mCustomView = findViewById(R.id.iv_keyAnimations);
         mMenuImageButton = findViewById(R.id.ib_menu);
-        //获取屏幕像素的宽、高
-        WindowManager manager = this.getWindowManager();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(outMetrics);
-        int width = outMetrics.widthPixels;//获取的为像素
-        int height = outMetrics.heightPixels;
-
-        Log.d(TAG, "onCreate: width="+width+"px"+" height="+height+"px");
-        Log.d(TAG, "onCreate: widthdp= "+ CommonUtil.pxTodp(this,width)
-                +"heightdp="+CommonUtil.pxTodp(this,height));
-//      Log.d(TAG, "onCreate:200  width"+dp2px(this,200));
+mPoints = new ArrayList<>();
+        mscreenWidth = CommonUtil.getScreenWidth(this);
+        mscreenHeight =  CommonUtil.getScreenHeight(this);
+         Log.d(TAG, "onCreate: screenWidth"+mscreenWidth + " screenHeight:"+mscreenHeight);
 
         /*
         ImageView imageView = findViewById(R.id.iv_keyAnimations);
@@ -48,10 +51,27 @@ ImageButton mMenuImageButton;
         imageView.startAnimation(animation);*/
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-         CommonUtil.getWidgetSize(mCustomView);
+
+       Size size = CommonUtil.getWidgetSize(mCustomView);
+
+       mCustomView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               //开始动画
+               startAnimation();
+           }
+       });
+
+       mMenuImageButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Log.d(TAG, "onClick: click menu item.");
+           }
+       });
     }
 
     @Override
@@ -72,10 +92,41 @@ ImageButton mMenuImageButton;
                         +" Right："+mMenuImageButton.getRight()+" Top："
                         +mMenuImageButton.getTop()+" Bottom："
                         +mMenuImageButton.getBottom());
+                setPath();
             }
         });
     }
 
+
+    //****动画
+    public void setPath(){
+        int startX = mscreenWidth/2;
+        int startY = mscreenHeight-mMenuImageButton.getMeasuredHeight()/2;
+        Point startPoint = new Point(startX,startY);
+        int radius = CommonUtil.dpTopx(this,200);
+        Point endPoint = new Point(startX,startY-radius);
+       mPoints.add(startPoint);
+       mPoints.add(endPoint);
+       mcenterPoint = startPoint;
+
+    }
+    //动画每次计算后会掉此方法执行
+    public void setMenuImageButtonPosition(Point point){
+        Log.d(TAG, "setMenuImageButtonPosition: x="+point.x +" y="+point.y);
+        int moveX = point.x-mcenterPoint.x;
+        int moveY = point.y - mcenterPoint.y;
+        mMenuImageButton.setTranslationX(moveX);
+        mMenuImageButton.setTranslationY(moveY);
+    }
+
+    //开始动画
+    public void startAnimation(){
+        ObjectAnimator anim = ObjectAnimator.ofObject(this, "MenuImageButtonPosition", new PointEvaluator()
+                ,mPoints.toArray());
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(500);//1秒=1000
+        anim.start();
+    }
 
 
 

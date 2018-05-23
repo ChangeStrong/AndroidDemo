@@ -1,9 +1,11 @@
 package com.example.luoluo.animationdemo.Utils;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Size;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 public class CommonUtil {
@@ -42,6 +44,22 @@ public class CommonUtil {
         ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(view.getLayoutParams());
         params.width = width;
         view.setLayoutParams(params);
+    }
+    //获取屏幕像素的宽
+    public static int getScreenWidth(Context context){
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int width = outMetrics.widthPixels;//获取的为像素
+        return width;
+    }
+    //获取屏幕的高
+    public  static  int getScreenHeight(Context context){
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int height = outMetrics.heightPixels;
+        return height;
     }
 
 }

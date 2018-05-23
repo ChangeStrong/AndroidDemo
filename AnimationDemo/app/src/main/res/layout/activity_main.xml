@@ -16,13 +16,14 @@
         android:layout_marginLeft="50dp"
         android:background="#fff000"
         app:default_min_size="50dp"/>
-    <ImageButton
+    <ImageView
         android:id="@+id/ib_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#ff0000"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/menu_all"/>
+        android:background="#ff00"
+        android:src="@drawable/menu_all"
+        />
 
 </RelativeLayout>

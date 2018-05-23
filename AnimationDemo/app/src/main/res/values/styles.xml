@@ -13,4 +13,8 @@
         <!--声明我们的属性，名称为default_min_size,取值类型为尺寸类型（dp,px等）-->
         <attr name="default_min_size" format="dimension" />
     </declare-styleable>
+    <!--为圆形imageview添加属性-->
+
+
+
 </resources>
