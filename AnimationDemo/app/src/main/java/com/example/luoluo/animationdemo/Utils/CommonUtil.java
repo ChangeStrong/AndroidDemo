@@ -62,4 +62,8 @@ public class CommonUtil {
         return height;
     }
 
+    public static double  angleToRadians(double angle){
+        return angle*Math.PI/180;
+    }
+
 }

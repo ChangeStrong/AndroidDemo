@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <ImageView
+        android:id="@+id/iv_liveitem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/default_banner"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        >
+        <TextView
+            android:id="@+id/tv_liveitem_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="this is first textview."
+            />
+        <TextView
+            android:id="@+id/tv_liveitem_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="this is second textview."
+           />
+        <TextView
+            android:id="@+id/tv_liveitem_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="this is three textview."
+            android:textColor="@color/colorPrimaryDark"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

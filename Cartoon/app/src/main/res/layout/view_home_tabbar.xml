@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false">
+
+    <LinearLayout
+        android:id="@+id/tab_home_linear"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:ignore="Suspicious0dp"
+        android:gravity="center_horizontal"
+        android:descendantFocusability="beforeDescendants">
+        <ImageButton
+            android:id="@+id/tab_home_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/tabbar_home"
+            android:contentDescription="TODO"
+            android:clickable="false"/>
+        <TextView
+            android:id="@+id/tab_home_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="首页"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_bookself_linear"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:ignore="Suspicious0dp"
+        android:gravity="center_horizontal"
+        android:descendantFocusability="beforeDescendants">
+        <ImageButton
+            android:id="@+id/tab_bookself_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/tabbar_bookshelf"
+            android:contentDescription="TODO"
+            android:clickable="false"/>
+        <TextView
+            android:id="@+id/tab_bookself_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="书架"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/tab_me_linear"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:ignore="Suspicious0dp"
+        android:gravity="center_horizontal"
+        android:descendantFocusability="beforeDescendants">
+        <ImageButton
+            android:id="@+id/tab_me_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/tabbar_me"
+            android:clickable="false"/>
+        <TextView
+            android:id="@+id/tab_me_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的"/>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
