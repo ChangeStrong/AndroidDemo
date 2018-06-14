@@ -18,12 +18,16 @@ import com.example.luoluo.cartoon.Utils.GlideImageLoader;
 import com.example.luoluo.cartoon.Utils.Type.ItemModuleType;
 import com.example.luoluo.cartoon.Utils.UIHelper;
 import com.example.luoluo.cartoon.adapter.HomeListAdapter;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
+
 
 
 
@@ -40,6 +44,20 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         this.setLiveListUI();
+        //添加上拉和下拉刷新
+        RefreshLayout refreshLayout = view.findViewById(R.id.refresh_home);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadmore(2000);
+            }
+        });
     }
     private RecyclerView mRvLiveList;
     public void initView(View view){
@@ -50,9 +68,6 @@ public class HomeFragment extends Fragment {
 
     List<ItemModule> mModules;//模块数据
     HomeListAdapter mliveListAdapter;
-
-
-
 
     //假数据
     public  void setLiveListUI(){
