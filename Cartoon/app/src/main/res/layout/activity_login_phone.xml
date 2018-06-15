@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_backgroud"
+    android:background="@drawable/bacground_default"
     android:gravity="center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="166dp"
         android:orientation="vertical"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
@@ -26,12 +26,12 @@
                 android:layout_margin="12dp"
                 android:gravity="center_vertical"
                 android:text=" + 86"
-                android:textColor="#000" />
+                android:textColor="@color/colorDefaultStroke" />
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="#ececec" />
+                android:background="@color/colorDefaultStroke" />
 
             <EditText
                 android:id="@+id/userNameEditText"
@@ -44,15 +44,15 @@
                 android:maxLength="11"
                 android:padding="3dp"
                 android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="#8000"
+                android:textColor="@color/colorDefaultStroke"
+                android:textColorHint="#880b0b0b"
                 android:textSize="14sp" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#ececec" />
+            android:background="@color/colorDefaultStroke" />
 
         <LinearLayout
             android:id="@+id/passwordLayout"
@@ -67,7 +67,7 @@
                 android:clickable="false"
                 android:gravity="center_vertical"
                 android:text="密 码"
-                android:textColor="#000" />
+                android:textColor="@color/colorDefaultStroke" />
 
             <!--<View-->
             <!--android:layout_width="0.5dp"-->
@@ -85,8 +85,8 @@
                 android:maxLength="15"
                 android:padding="3dp"
                 android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/gray"
+                android:textColor="@color/colorDefaultStroke"
+                android:textColorHint="#88121111"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -102,6 +102,7 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/background_button_login"
             android:text="开始登录"
+            android:textColor="@color/colorDefaultStroke"
             android:textStyle="bold" />
 
     </LinearLayout>

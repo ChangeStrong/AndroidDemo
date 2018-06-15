@@ -27,7 +27,7 @@ find_library( # Sets the name of the path variable.
 
 #声明导入文件更目录变量ARM_DIR ,这使用了相对与系统的更目录，因为使用相对路径似乎不起作用
 #  /Users/wangyijin/Desktop/demo/FFmpegForAndroidDemo/app/src/main/jniLibs
-set(ARM_DIR /Users/luoluo/AndroidStudioProjects/AudioPlayer/app/src/main/jniLibs)
+set(ARM_DIR /Users/luoluo/AndroidStudioProjects/Github/AudioPlayer/app/src/main/jniLibs)
 
 
 #导入头文件

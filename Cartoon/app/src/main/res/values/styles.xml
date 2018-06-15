@@ -9,7 +9,7 @@
     </style>
 
     <style name="AppSplash" parent="@android:style/Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@drawable/splash_backgroud</item>
+        <item name="android:windowBackground">@drawable/backgroud_splash</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
