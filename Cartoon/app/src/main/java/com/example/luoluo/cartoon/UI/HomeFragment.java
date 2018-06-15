@@ -58,6 +58,12 @@ public class HomeFragment extends Fragment {
                 refreshlayout.finishLoadmore(2000);
             }
         });
+        /*****设置刷新的样式
+        /设置 Header 为 Material风格
+        refreshLayout.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(true));
+        //设置 Footer 为 球脉冲
+        refreshLayout.setRefreshFooter(new BallPulseFooter(this).setSpinnerStyle(SpinnerStyle.Scale));
+        */
     }
     private RecyclerView mRvLiveList;
     public void initView(View view){

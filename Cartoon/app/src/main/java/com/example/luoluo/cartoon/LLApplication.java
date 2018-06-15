@@ -46,9 +46,21 @@ public class LLApplication extends Application{
             }
         });
     }
+
+    private static LLApplication mApplication;
+    public static Context getContext() {
+        return mApplication;
+    }
+
+    private void init(){
+        mApplication = this;
+    }
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+        init();
         //初始化网络请求库
         initOkgo();
     }

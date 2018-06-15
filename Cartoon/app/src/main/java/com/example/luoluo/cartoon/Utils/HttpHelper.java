@@ -1,9 +1,8 @@
 package com.example.luoluo.cartoon.Utils;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.example.luoluo.cartoon.Utils.Constants.ConstantHttp;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;

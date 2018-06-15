@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:banner="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+
+    <com.example.luoluo.cartoon.UI.Login.view.SimpleGuideBanner
+        android:id="@+id/sgb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        banner:bb_barPaddingLeft="8dp"
+        banner:bb_isLoopEnable="false"/>
+   <!-- <github.chenupt.springindicator.viewpager.ScrollerViewPager
+        android:id="@+id/vb_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <github.chenupt.springindicator.SpringIndicator xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:siTextSize="15sp"
+        app:siIndicatorColors="@array/indicator_colors"
+        app:siTextColor="@color/primary"
+        app:siSelectedTextColor="@android:color/white"
+        app:siIndicatorColor="@color/primary_dark"
+        android:id="@+id/indicator"
+        android:layout_width="100dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp" />-->
+</FrameLayout>

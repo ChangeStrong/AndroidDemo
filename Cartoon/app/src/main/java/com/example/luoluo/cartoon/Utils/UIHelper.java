@@ -1,5 +1,6 @@
 package com.example.luoluo.cartoon.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.util.Size;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 
 public class UIHelper {
@@ -48,7 +50,7 @@ public class UIHelper {
 
     //设置控件的高
     public  static  void  setHeight(View view,int height){
-        //此处的ViewGroup必须替换  目前理解是为它的父布局使用什么就用什么设置
+        //此处的ViewGroup可替换  目前理解是为它的父布局使用什么就用什么设置
         ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(view.getLayoutParams());
         params.height = height;
         view.setLayoutParams(params);
@@ -98,4 +100,23 @@ public class UIHelper {
     //Point
 
     //在活动走了 onCreate onStart onResume 方法走之后才会去走onMesure方法
+
+    //************************其它设置**********
+    /**
+     * @return void 返回类型
+     * @throws
+     * @Title: setNoTitle_FullScreen
+     * @Description: 设置全屏和没有标题
+     */
+    public static void setNoTitle_FullScreen(Activity activity, boolean isFull,
+                                             boolean isNoTitle) {
+        if (isFull)
+            activity.getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (isNoTitle)
+            activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+
 }

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_backgroud"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+                android:gravity="center_vertical"
+                android:text=" + 86"
+                android:textColor="#000" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="#ececec" />
+
+            <EditText
+                android:id="@+id/userNameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="8dp"
+                android:background="@null"
+                android:hint="请输入手机号码"
+                android:inputType="number"
+                android:maxLength="11"
+                android:padding="3dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#8000"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ececec" />
+
+        <LinearLayout
+            android:id="@+id/passwordLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_margin="12dp"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:text="密 码"
+                android:textColor="#000" />
+
+            <!--<View-->
+            <!--android:layout_width="0.5dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#ececec" />-->
+
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="8dp"
+                android:background="@null"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:maxLength="15"
+                android:padding="3dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#ececec" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/background_button_login"
+            android:text="开始登录"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+

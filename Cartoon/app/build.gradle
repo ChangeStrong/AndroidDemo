@@ -36,7 +36,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'com.youth.banner:banner:1.4.9'
+    implementation 'com.youth.banner:banner:1.4.9' //首页banner
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.flyco.banner:FlycoBanner_Lib:2.0.2@aar' //引导页
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     implementation 'com.android.support:recyclerview-v7:27.1.1'

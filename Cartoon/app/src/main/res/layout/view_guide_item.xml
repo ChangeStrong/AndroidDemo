@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/bt"
+        android:text="立刻体验"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:background="@drawable/background_guide_immediate_experience"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_marginBottom="50dp"/>
+</FrameLayout>

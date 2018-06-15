@@ -1,4 +1,4 @@
-package com.example.luoluo.cartoon.Utils;
+package com.example.luoluo.cartoon.Utils.Constants;
 
 public class ConstantHttp {
     public  static String getBaseUrl()

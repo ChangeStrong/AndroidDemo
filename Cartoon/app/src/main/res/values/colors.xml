@@ -8,5 +8,9 @@
     <color name="colorDefaultStroke">#AD67CE</color>
     <color name="tabbar_textColor_press">#AD67CE</color>
     <color name="color_default_textColor">#000000</color>
-
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="red">#ffff0000</color>
+    <color name="gray">#717171</color>
 </resources>
