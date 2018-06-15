@@ -3,17 +3,20 @@ package com.example.luoluo.audioplayer;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -97,7 +100,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void popAlertDialog(){
+        //    通过AlertDialog.Builder这个类来实例化我们的一个AlertDialog的对象
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        //    设置Title的图标
+//        builder.setIcon(R.drawable.ic_launcher);
+        builder.setTitle("提示");
+        //    设置Content来显示一个信息
+        builder.setMessage("正在编码、编码时长约8秒");
+        //    设置一个PositiveButton
+        builder.setPositiveButton("我知道了", new DialogInterface.OnClickListener()
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which)
+            {
+                Toast.makeText(MainActivity.this, "positive: " + which, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //显示出该对话框
+        builder.show();
+    }
+
     public  void  startRecode() throws IOException {
+
+        Toast.makeText(MainActivity.this,"正在录制、点击播放会在编码后进行播放",Toast.LENGTH_LONG).show();
+
         int status = ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.RECORD_AUDIO);
         if (status != PackageManager.PERMISSION_GRANTED) {
