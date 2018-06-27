@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="8dp"
-                android:background="@null"
+                android:background="@drawable/backgroud_edite_text"
                 android:hint="请输入手机号码"
                 android:inputType="number"
                 android:maxLength="11"
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="8dp"
-                android:background="@null"
+                android:background="@drawable/backgroud_edite_text"
                 android:hint="请输入密码"
                 android:inputType="textPassword"
                 android:maxLength="15"
@@ -102,6 +102,15 @@
             android:layout_marginTop="18dp"
             android:background="@drawable/background_button_login"
             android:text="开始登录"
+            android:textColor="@color/colorDefaultStroke"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/login_register_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/background_button_login"
+            android:text="开始注册"
             android:textColor="@color/colorDefaultStroke"
             android:textStyle="bold" />
 

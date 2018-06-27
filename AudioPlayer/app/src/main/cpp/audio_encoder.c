@@ -90,7 +90,7 @@ static  void short2float(short* in, void* out, int len){
     register int i;
     for(i = 0; i < len; i++)
         //short 类型转float类型
-        ((float*)out)[i] = ((float)(in[i]));//((float*)out)[i] = ((float)(in[i])) / 32767.0;
+       ((float*)out)[i] = (in[i]) / 32767.0;
 }
 
 //传一帧数据大小的数据过来编码 1024
