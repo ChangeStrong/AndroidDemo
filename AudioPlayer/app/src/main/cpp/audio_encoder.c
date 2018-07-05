@@ -48,8 +48,8 @@ void initFfmpegAll(void){
     mAudioCodecContext= avcodec_alloc_context3(codec);
     mAudioCodecContext->codec_type = AVMEDIA_TYPE_AUDIO;
     mAudioCodecContext->bit_rate = 32000;//12Kbit/s  22Kbits 32Kbit
-    //android 录制的时候声音默认格式就是16位存储
-    mAudioCodecContext->sample_fmt = AV_SAMPLE_FMT_FLTP;//float planar(存完一个声道再存另一个)
+    //android 录制的时候声音默认格式就是16位存储   ffmpeg老版本使用AV_SAMPLE_FMT_S16P AV_CH_LAYOUT_STEREO
+    mAudioCodecContext->sample_fmt =  AV_SAMPLE_FMT_FLTP;//AV_SAMPLE_FMT_FLTP(新版使用这个);//float planar(存完一个声道再存另一个)
     mAudioCodecContext->sample_rate = 48000;
     mAudioCodecContext->channel_layout   = AV_CH_LAYOUT_MONO;
     int  channels = av_get_channel_layout_nb_channels(mAudioCodecContext->channel_layout);
@@ -104,10 +104,10 @@ int encodePcmData(short *pcmdata , unsigned int frameSize, unsigned char *pOut){
     pkt.size = 0;
 
     if(mAudioCodecContext && mAVFrame){
-        //copy一帧数据到帧buff中  对于short类型的pcm数据 一帧的尺寸的长度为1024字节 用short类型存储长度只需1024/2
+        //copy一帧数据到帧buff中  对于short类型的pcm数据 一帧的尺寸的长度为1024字节 用float类型存储长度只需1024/2
         short2float((int16_t *)pcmdata, mEncoderData, frameSize/2);
 
-        mAVFrame->data[0] = mEncoderData;
+        mAVFrame->data[0] =  mEncoderData;
         mAVFrame->pts = 0;
         //音频编码
         encode_ret = avcodec_encode_audio2(mAudioCodecContext, &pkt, mAVFrame, &got_packet_ptr);

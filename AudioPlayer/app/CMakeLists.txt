@@ -40,7 +40,7 @@ add_library(avcodec-57
 #设置动态库路径
 set_target_properties(avcodec-57
                       PROPERTIES IMPORTED_LOCATION
-                      ${ARM_DIR}/armeabi/libavcodec-57.so
+                      ../../../../src/main/jniLibs/armeabi-v7a/libavcodec-57.so
                         )
 
 add_library(avdevice-57
@@ -48,43 +48,38 @@ add_library(avdevice-57
             IMPORTED)
 set_target_properties(avdevice-57
                       PROPERTIES IMPORTED_LOCATION
-                      ${ARM_DIR}/armeabi/libavdevice-57.so)
+                      ../../../../src/main/jniLibs/armeabi-v7a/libavdevice-57.so)
 add_library(avformat-57
             SHARED
             IMPORTED)
 set_target_properties(avformat-57
                       PROPERTIES IMPORTED_LOCATION
-                      ${ARM_DIR}/armeabi/libavformat-57.so)
+                      ../../../../src/main/jniLibs/armeabi-v7a/libavformat-57.so)
 add_library(avutil-55
             SHARED
             IMPORTED)
 set_target_properties(avutil-55
                       PROPERTIES IMPORTED_LOCATION
-                      ${ARM_DIR}/armeabi/libavutil-55.so)
-add_library(postproc-54
-            SHARED
-            IMPORTED)
-set_target_properties(postproc-54
-                      PROPERTIES IMPORTED_LOCATION
-                      ${ARM_DIR}/armeabi/libpostproc-54.so)
+                      ../../../../src/main/jniLibs/armeabi-v7a/libavutil-55.so)
+
 add_library(swresample-2
              SHARED
              IMPORTED)
 set_target_properties(swresample-2
                        PROPERTIES IMPORTED_LOCATION
-                       ${ARM_DIR}/armeabi/libswresample-2.so)
+                       ../../../../src/main/jniLibs/armeabi-v7a/libswresample-2.so)
 add_library(swscale-4
               SHARED
               IMPORTED)
 set_target_properties(swscale-4
                         PROPERTIES IMPORTED_LOCATION
-                        ${ARM_DIR}/armeabi/libswscale-4.so)
+                        ../../../../src/main/jniLibs/armeabi-v7a/libswscale-4.so)
 add_library(avfilter-6
               SHARED
               IMPORTED)
 set_target_properties(avfilter-6
                         PROPERTIES IMPORTED_LOCATION
-                        ${ARM_DIR}/armeabi/libavfilter-6.so)
+                        ../../../../src/main/jniLibs/armeabi-v7a/libavfilter-6.so)
 
 
 # 提前编译需要使用的.so库和系统库
@@ -95,7 +90,6 @@ target_link_libraries( # Specifies the target library.
                        avformat-57
                        avfilter-6
                        avutil-55
-                       postproc-54
                        swresample-2
                        swscale-4
                         android
