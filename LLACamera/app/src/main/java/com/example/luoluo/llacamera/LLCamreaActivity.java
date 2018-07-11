@@ -44,8 +44,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -223,11 +225,9 @@ public ImageReader mImageReader;
        if (list.contains(size4) == false){
           size4 = largest;
        }
-
-
         /*此处还有很多格式，比如我所用到YUV等 最大的图片数， 此处设置的就是输出分辨率mImageReader里能获取到图片数，但是实际中是2+1张图片，就是多一张*/
         mImageReader = ImageReader.newInstance(size4.getWidth(), size4.getHeight(), ImageFormat.YV12,2);
-
+        //监听数据回调
         mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mHandler);
 
         //设置方向
@@ -246,6 +246,7 @@ public ImageReader mImageReader;
 
     }
 
+    private Date mLastDate;
     private ImageReader.OnImageAvailableListener mOnImageAvailableListener
             = new ImageReader.OnImageAvailableListener() {
 
@@ -310,8 +311,6 @@ public ImageReader mImageReader;
             //将底层数据以I420 YYYYVVUU 方式保存
             byte[] data=  getDataFromImage(image,COLOR_FormatI420);
             //将I420旋转
-//            data = rotateYUVDegree90(data,width,height);
-//            data = rotateYUVDegree270(data,width,height);
             byte[] data2 = new byte[width*height*3/2];
             if (mCameraId.equals("0")){
                 //后置摄像头
@@ -320,13 +319,30 @@ public ImageReader mImageReader;
                 //前置摄像头
                 yuv_rotate_270(data2,data,width,height);
             }
+            if (mLastDate==null){
+                mLastDate = new Date(System.currentTimeMillis());
+            }
 
-//            rotate2YUV420Degree270(data2,data,width,height);
-            dumpFile("yuv420_"+width+"_"+height+".yuv",data2);
+            //计算这一帧时间和上一帧的时间间隔
+            Date currentdate = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(mLastDate);
+            long time1 = calendar.getTimeInMillis();
+
+            calendar.setTime(currentdate);
+            long time2 = calendar.getTimeInMillis();
+            long betweenDays = (time2 - time1)/(1000*3600*24);
+            Log.d(TAG, "timeinteval="+betweenDays);
+
+            //编码一帧数据 旋转后高和宽替换
+            handleAframeData(data2,height,width);
+//            dumpFile("yuv420_"+width+"_"+height+".yuv",data2);
             image.close();
 
         }
     };
+
+    public native void handleAframeData(byte[] data,int width,int height);
 
     private CameraCaptureSession.StateCallback mSessionStateCallback = new CameraCaptureSession.StateCallback() {
 
