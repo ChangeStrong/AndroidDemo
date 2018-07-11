@@ -335,7 +335,7 @@ public ImageReader mImageReader;
             Log.d(TAG, "timeinteval="+betweenDays);
 
             //编码一帧数据 旋转后高和宽替换
-            handleAframeData(data2,height,width);
+//            handleAframeData(data2,height,width);
 //            dumpFile("yuv420_"+width+"_"+height+".yuv",data2);
             image.close();
 
