@@ -347,5 +347,5 @@ private  byte[] getDataFromImage(Image image, int colorFormat) {
 
 ####目前正在持续更新中有喜欢的小伙伴可以fork一下、顺便给个star谢谢、你的赞赏是我持续的动力。
 有疑问的小伙伴欢迎加交流讨论QQ：206931384 
-有钱的小伙伴们走如下通道：
+###有钱的小伙伴们走如下通道：
 ![wechat](https://github.com/ChangeStrong/AndroidDemo/blob/master/wechatPay2.jpg?raw=true)
