@@ -561,7 +561,6 @@ public ImageReader mImageReader;
         }
 
         //copy u
-//        byte ptemp = src + width * height;
         for(int j = 0;j < hw;j++)
         {
             for(int i = hh - 1;i >= 0;i--)
@@ -572,7 +571,6 @@ public ImageReader mImageReader;
         }
 
         //copy v
-//        ptemp += width * height / 4;
         for(int j = 0; j < hw; j++)
         {
             for(int i = hh - 1;i >= 0;i--)
@@ -599,7 +597,6 @@ public ImageReader mImageReader;
         }
 
         //copy u
-//        BYTE *ptemp = src + width * height;
         for(int j = hw-1; j >=0;j--)
         {
             for(int i = 0; i < hh;i++)
@@ -609,7 +606,6 @@ public ImageReader mImageReader;
         }
 
         //copy v
-//        ptemp += width * height / 4;
         for(int j = hw-1; j >=0;j--)
         {
             for(int i = 0; i < hh;i++)
@@ -635,7 +631,6 @@ public ImageReader mImageReader;
         }
 
         //copy u
-//        BYTE *ptemp = src + width * height;
         for(int j = 0; j < hh; j++)
         {
             for(int i = hw - 1;i >= 0;i--)
@@ -645,7 +640,6 @@ public ImageReader mImageReader;
         }
 
         //copy v
-//        ptemp += width * height / 4;
         for(int j = 0; j < hh; j++)
         {
             for(int i = hw - 1;i >= 0;i--)
