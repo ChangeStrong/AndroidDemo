@@ -61,6 +61,8 @@ public class LLCamreaActivity extends AppCompatActivity implements TextureView.S
     private static final String TAG = "LLCamreaActivity";
 
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+    //硬编码器
+    private  LLAHardEncode mHardEncode;
     static
     {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);//ROTATION_0-->0 设备方向是0 对应传感器方向是90
@@ -111,7 +113,7 @@ private String mCameraId;
             //支持的STREAM CONFIGURATION
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             //摄像头支持的预览Size数组 1440x1080
-            List list =   Arrays.asList(map.getOutputSizes(ImageFormat.YV12));
+            List list =   Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888));
 
             Size size4 = new Size(640,480);
             if (list.contains(size4) == false){
@@ -217,16 +219,20 @@ public ImageReader mImageReader;
                 CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
         //小米不支持NV21  支持YV12
         Size largest = Collections.max(
-                Arrays.asList(map.getOutputSizes(ImageFormat.YV12)),//YUV_420_888
+                Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888)),//YUV_420_888
                 new CompareSizesByArea());
-       List list =   Arrays.asList(map.getOutputSizes(ImageFormat.YV12));
+       List list =   Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888));
 
        Size size4 = new Size(640,480);
        if (list.contains(size4) == false){
           size4 = largest;
        }
+       //初始化硬编码器 - 此处后面会颠倒所以交换输入的宽高
+        mHardEncode = new LLAHardEncode(size4.getHeight(),size4.getWidth(),20,this);
+        mHardEncode.startEncoderThread();
+        //YUV_420_888
         /*此处还有很多格式，比如我所用到YUV等 最大的图片数， 此处设置的就是输出分辨率mImageReader里能获取到图片数，但是实际中是2+1张图片，就是多一张*/
-        mImageReader = ImageReader.newInstance(size4.getWidth(), size4.getHeight(), ImageFormat.YV12,2);
+        mImageReader = ImageReader.newInstance(size4.getWidth(), size4.getHeight(), ImageFormat.YUV_420_888,2);
         //监听数据回调
         mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mHandler);
 
@@ -246,6 +252,7 @@ public ImageReader mImageReader;
 
     }
 
+
     private Date mLastDate;
     private ImageReader.OnImageAvailableListener mOnImageAvailableListener
             = new ImageReader.OnImageAvailableListener() {
@@ -257,6 +264,17 @@ public ImageReader mImageReader;
          **/
         @Override
         public void onImageAvailable(ImageReader reader) {
+            if (mLastDate == null){
+                mLastDate = new Date(System.currentTimeMillis());
+            }
+
+            Date currentDate = new Date(System.currentTimeMillis());//毫秒
+            long intervalTime = currentDate.getTime()-mLastDate.getTime();
+
+            mLastDate = currentDate;
+            if (intervalTime < (1.0/20.0)*1000.0){
+                return;
+            }
 
             Image image = reader.acquireNextImage();
             //YUV_420_888格式 ---->获取到的三个通道分别对应YUV (已验证过)
@@ -264,53 +282,14 @@ public ImageReader mImageReader;
             int height = image.getHeight();
             // 从image里获取三个plane
             Image.Plane[] planes = image.getPlanes();
+           int format = image.getFormat();
+            Log.d(TAG, "Camera- image format is "+format);//35
 
-/*
-            //取出Y数据
-            ByteBuffer Ybuffer = image.getPlanes()[0].getBuffer();
-            int ysize = Ybuffer.remaining();
-            byte[] yData = new byte[width*height];
-            Ybuffer.get(yData);
-
-            //拼接两段uv数据
-            byte[] uvData = new  byte[width*height/2];
-            int uSize = width*height/4;
-            int vSize = uSize;
-
-            //取出planes[1]中的数据  此中的数据一定为U
-            ByteBuffer uvBuffer1 = image.getPlanes()[1].getBuffer();
-            int uvsize1 = uvBuffer1.remaining();//此处大小为width*height/2.0  因为步幅为2
-            byte[] uvBuffData1 = new byte[uvsize1];
-            uvBuffer1.get(uvBuffData1);
-            for (int i=0;i<uSize;i++){
-                uvData[i] = uvBuffData1[i*planes[1].getPixelStride()];
-            }
-
-            //取出planes[2]中的数据 此中的数据一定为V
-            ByteBuffer uvBuffer2 = image.getPlanes()[2].getBuffer();
-            int uvsize2 = uvBuffer2.remaining();//此处大小为width*height/2.0  因为步幅为2
-            byte[] uvBuffData2 = new byte[uvsize2];
-            uvBuffer2.get(uvBuffData2);
-            for (int i=0;i<vSize;i++){
-                uvData[uSize+i] = uvBuffData2[i*planes[2].getPixelStride()];
-            }
-
-            try {
-                saveTofile("yuv420_"+width+"_"+height+".yuv",yData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                saveTofile("yuv420_"+width+"_"+height+".yuv",uvData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
 
 
             //将底层数据以I420 YYYYVVUU 方式保存
             byte[] data=  getDataFromImage(image,COLOR_FormatI420);
-            //将I420旋转
+           // 将I420旋转
             byte[] data2 = new byte[width*height*3/2];
             if (mCameraId.equals("0")){
                 //后置摄像头
@@ -319,23 +298,31 @@ public ImageReader mImageReader;
                 //前置摄像头
                 yuv_rotate_270(data2,data,width,height);
             }
-            if (mLastDate==null){
-                mLastDate = new Date(System.currentTimeMillis());
+
+            //旋转后转nv12 目前硬编码接收的数据必须为NV12
+            byte[] data3 = new byte[width * height * 3 / 2];
+            for (int i = 0; i < width*height; i++) {
+                data3[i] = data2[i];
             }
 
-            //计算这一帧时间和上一帧的时间间隔
-            Date currentdate = new Date(System.currentTimeMillis());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(mLastDate);
-            long time1 = calendar.getTimeInMillis();
+            //yyyyyyyy uvuv NV12
+            for (int i=0;i<width*height/2;i++){
+                data3[width*height+i]=data2[width*height+i/2];//存入U
+                i++;
+                data3[width*height+i]=data2[width*height+(width*height/4)+(i-1)/2];
+            }
 
-            calendar.setTime(currentdate);
-            long time2 = calendar.getTimeInMillis();
-            long betweenDays = (time2 - time1)/(1000*3600*24);
-            Log.d(TAG, "timeinteval="+betweenDays);
 
             //编码一帧数据 旋转后高和宽替换
 //            handleAframeData(data2,height,width);
+
+            //开始硬编码
+                if (mHardEncode.myuvQueue.size() >= 10){
+                    mHardEncode.myuvQueue.poll();
+                }
+                mHardEncode.myuvQueue.add(data3);
+            Log.d(TAG, "HardEncode- yuvQueueSize="+mHardEncode.myuvQueue.size()+"currentDataSize="+data3.length);
+
 //            dumpFile("yuv420_"+width+"_"+height+".yuv",data2);
             image.close();
 
@@ -658,6 +645,58 @@ public ImageReader mImageReader;
  YV12: YYYYYYYY VV UU =>YUV420P
  NV12: YYYYYYYY UVUV =>YUV420SP
  NV21: YYYYYYYY VUVU =>YUV420SP
+
+
+ /*
+ //取出Y数据
+ ByteBuffer Ybuffer = image.getPlanes()[0].getBuffer();
+ int ysize = Ybuffer.remaining();
+ byte[] yData = new byte[width*height];
+ Ybuffer.get(yData);
+
+ //拼接两段uv数据
+ byte[] uvData = new  byte[width*height/2];
+ int uSize = width*height/4;
+ int vSize = uSize;
+
+ //取出planes[1]中的数据  此中的数据一定为U
+ ByteBuffer uvBuffer1 = image.getPlanes()[1].getBuffer();
+ int uvsize1 = uvBuffer1.remaining();//此处大小为width*height/2.0  因为步幅为2
+ byte[] uvBuffData1 = new byte[uvsize1];
+ uvBuffer1.get(uvBuffData1);
+ for (int i=0;i<uSize;i++){
+ uvData[i] = uvBuffData1[i*planes[1].getPixelStride()];
+ }
+
+ //取出planes[2]中的数据 此中的数据一定为V
+ ByteBuffer uvBuffer2 = image.getPlanes()[2].getBuffer();
+ int uvsize2 = uvBuffer2.remaining();//此处大小为width*height/2.0  因为步幅为2
+ byte[] uvBuffData2 = new byte[uvsize2];
+ uvBuffer2.get(uvBuffData2);
+ for (int i=0;i<vSize;i++){
+ uvData[uSize+i] = uvBuffData2[i*planes[2].getPixelStride()];
+ }
+
+          /*  try {
+                saveTofile("yuv420_"+width+"_"+height+".yuv",yData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                saveTofile("yuv420_"+width+"_"+height+".yuv",uvData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+ //旋转后转nv12 目前硬编码接收的数据必须为NV12
+ //yyyyyyyy uvuv NV12
+ for (int i=0;i<uSize*2;i++){
+ data[ysize+i]=uvData[i/2];//存入U
+ i++;
+ data[ysize+i]=uvData[uSize+(i-1)/2];
+ }
 
  //用户后置摄像头
  private byte[] rotateYUVDegree90(byte[] data, int imageWidth, int imageHeight) {
