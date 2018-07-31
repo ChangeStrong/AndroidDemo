@@ -8,7 +8,7 @@ AudioPlayer这个项目需要替换变量值：替换文件CMakeLists.text中的
 ##Camera2 API介绍
 
 
-####1.获取前或者后置摄像头 摄像头都有对应的摄像头id、获取到摄像头id后面有相应的接口打开此id
+#### 1.获取前或者后置摄像头 摄像头都有对应的摄像头id、获取到摄像头id后面有相应的接口打开此id
 ```java
 CameraManager cameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
 for (String cameraId : cameraManager.getCameraIdList()){
@@ -23,7 +23,7 @@ for (String cameraId : cameraManager.getCameraIdList()){
 
 ```
 
-####2.打开摄像头以及打开状态回调
+#### 2.打开摄像头以及打开状态回调
 ```java
 cameraManager.openCamera(mCameraId, mCameraDeviceStateCallback, mHandler);
 //回调
@@ -54,7 +54,7 @@ public  CameraDevice mCameraDevice;
     };
 ```
 
-####3.设置分辨率 可根据你显示的view大小进行设置、设置回调数据格式、以及添加预览和回调数据监听
+#### 3.设置分辨率 可根据你显示的view大小进行设置、设置回调数据格式、以及添加预览和回调数据监听
 ```java
  SurfaceTexture texture = mPreviewView.getSurfaceTexture();
 //      这里设置的就是预览大小
@@ -87,14 +87,14 @@ public  CameraDevice mCameraDevice;
         mCaptureRequest.addTarget(mImageReader.getSurface());
 ```
 
-##分析回调数据yuv数据和存储为yuv420p
-####格式讲解
+## 分析回调数据yuv数据和存储为yuv420p
+#### 格式讲解
 	I420:YYYYYYYY UU VV =>YUV420P
  	YV12: YYYYYYYY VV UU =>YUV420P
  	NV12: YYYYYYYY UVUV =>YUV420SP
  	NV21: YYYYYYYY VUVU =>YUV420SP
-###数据按y、u、v分开获取与存储、由于之前选择的格式有可能为yuv420_888、NV21、YV12但是经过如下取出后一定是yuv420p
-####方法一
+### 数据按y、u、v分开获取与存储、由于之前选择的格式有可能为yuv420_888、NV21、YV12但是经过如下取出后一定是yuv420p
+#### 方法一
 ```java
 //取出Y数据
             ByteBuffer Ybuffer = image.getPlanes()[0].getBuffer();
@@ -137,7 +137,7 @@ public  CameraDevice mCameraDevice;
                 e.printStackTrace();
             }
 ```
-####方法二
+#### 方法二
 ```java
 private  byte[] getDataFromImage(Image image, int colorFormat) {
         if (colorFormat != COLOR_FormatI420 && colorFormat != COLOR_FormatNV21) {
@@ -225,11 +225,11 @@ private  byte[] getDataFromImage(Image image, int colorFormat) {
         return data;
     }
 ```
-####目前看到的效果为默认的横屏数据:
+#### 目前看到的效果为默认的横屏数据:
 ![HorizontalCamera2](https://github.com/ChangeStrong/AndroidDemo/blob/master/Camera2Horizontal.png?raw=true)
 
 
-##前后摄像头数据旋转
+## 前后摄像头数据旋转
 前置摄像头需要旋转顺时针270度 后置摄像头只需旋转90度、旋转算法如下
 
 ```java
@@ -339,7 +339,7 @@ private  byte[] getDataFromImage(Image image, int colorFormat) {
 
 ```
 
-####旋转后的效果为竖屏数据:
+#### 旋转后的效果为竖屏数据:
 ![PortraitCamera2](https://github.com/ChangeStrong/AndroidDemo/blob/master/Camera2Portrait.png?raw=true)
 ###传送门:
 [源码](https://github.com/ChangeStrong/AndroidDemo)
