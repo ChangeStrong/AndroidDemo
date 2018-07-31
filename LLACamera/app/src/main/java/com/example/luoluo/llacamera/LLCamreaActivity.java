@@ -264,17 +264,7 @@ public ImageReader mImageReader;
          **/
         @Override
         public void onImageAvailable(ImageReader reader) {
-            if (mLastDate == null){
-                mLastDate = new Date(System.currentTimeMillis());
-            }
-
-            Date currentDate = new Date(System.currentTimeMillis());//毫秒
-            long intervalTime = currentDate.getTime()-mLastDate.getTime();
-
-            mLastDate = currentDate;
-            if (intervalTime < (1.0/20.0)*1000.0){
-                return;
-            }
+            
 
             Image image = reader.acquireNextImage();
             //YUV_420_888格式 ---->获取到的三个通道分别对应YUV (已验证过)

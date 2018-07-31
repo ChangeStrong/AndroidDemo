@@ -100,7 +100,6 @@ public class LLAHardEncode {
                                 Log.d(TAG, "HardEncode- can't get input queue.");
                             }
 
-
                             //取出编码好的h264
                             MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
                             //
