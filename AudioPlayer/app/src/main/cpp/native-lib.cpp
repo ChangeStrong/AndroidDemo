@@ -63,7 +63,7 @@ static pthread_mutex_t  audioEngineLock = PTHREAD_MUTEX_INITIALIZER;
 // 5 seconds of recorded audio at 16 kHz mono, 16-bit signed little endian
 #define RECORDER_FRAMES (16000 * 5)
 static short recorderBuffer[RECORDER_FRAMES];
-static unsigned recorderSize = 0;
+static unsigned recorderSize = 0;//录制的声音字节数
 
 static short *resampleBuf = NULL;
 static SLEffectSendItf bqPlayerEffectSend;
@@ -206,7 +206,7 @@ Java_com_example_luoluo_audioplayer_MainActivity_createBufferQueueAudioPlayer(JN
      * will be triggered
      */
     if(bqPlayerSampleRate) {
-        //此处修改采样率
+        //此处修改采样率 48000
         format_pcm.samplesPerSec = bqPlayerSampleRate;       //sample rate in mili second
     }
     SLDataSource audioSrc = {&loc_bufq, &format_pcm};
@@ -394,7 +394,7 @@ short* createResampledBuf(uint32_t idx, uint32_t srcRate, unsigned *size) {
     short  *src = NULL;
     short  *workBuf;
     int    upSampleRate;
-    int32_t srcSampleCount = 0;
+    int32_t srcSampleCount = 0;//录制的帧数
 
     if(0 == bqPlayerSampleRate) {
         return NULL;
@@ -405,11 +405,11 @@ short* createResampledBuf(uint32_t idx, uint32_t srcRate, unsigned *size) {
          */
         return NULL;
     }
-    upSampleRate = bqPlayerSampleRate / srcRate;
+    upSampleRate = bqPlayerSampleRate / srcRate;// 48000*1000/16000000=48/16=3 48khz与16khz的倍数
 
     switch (idx) {
         case 4: // captured frames
-            srcSampleCount = recorderSize / sizeof(short);
+            srcSampleCount = recorderSize / sizeof(short);//录制的帧数
             src =  recorderBuffer;//取出队列中录制的声音
             break;
         default:
@@ -444,17 +444,15 @@ Java_com_example_luoluo_audioplayer_MainActivity_selectClip(JNIEnv *env, jclass 
         return JNI_FALSE;
     }
 
-    //将采样数据保存到本地  16hz 1channels 16bit
+
     //写入文件
 //   size_t writeCount = fwrite(recorderBuffer,1,recorderSize,pcmFile);
 //    LLog("write char count =%d needWriteCount=%d",writeCount,recorderSize);
 
-
-
-
     //创建重采样buff 将录制的声音采样从16kHz转为48kHz
-    nextBuffer = createResampledBuf(4, SL_SAMPLINGRATE_16, &nextSize);
+    nextBuffer = createResampledBuf(4, SL_SAMPLINGRATE_16, &nextSize);// 感觉这一句现在没起作用?
     // we recorded at 16 kHz, but are playing buffers at 8 Khz, so do a primitive down-sample
+    //此处有点像将底层char类型的存储转为short类型的存储？
     if(!nextBuffer) {
         unsigned i;
         for (i = 0; i < recorderSize; i += 2 * sizeof(short)) {

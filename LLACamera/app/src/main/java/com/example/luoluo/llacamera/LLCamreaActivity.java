@@ -32,6 +32,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Range;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -110,8 +111,10 @@ private String mCameraId;
             CameraManager cameraManager = (CameraManager) this.getSystemService(Context.CAMERA_SERVICE);
             //获得某个摄像头的特征，支持的参数
             CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(mCameraId);
-            //支持的STREAM CONFIGURATION
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            //支持的帧率8-30
+            Range<Integer>[] fpsRanges = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+//            Log.d(TAG, "Camera2-fpsRange=: "+fpsRanges);
             //摄像头支持的预览Size数组 1440x1080
             List list =   Arrays.asList(map.getOutputSizes(ImageFormat.YUV_420_888));
 
@@ -198,6 +201,7 @@ public ImageReader mImageReader;
 //public SurfaceView mSurfaceView;//未赋值
 
     private void startPreview(CameraDevice camera) throws CameraAccessException {
+        //以下操作也是在子线程
         SurfaceTexture texture = mPreviewView.getSurfaceTexture();
 //      这里设置的就是预览大小
         texture.setDefaultBufferSize(mPreviewSize.getWidth(), mPreviewSize.getHeight());
@@ -228,8 +232,11 @@ public ImageReader mImageReader;
           size4 = largest;
        }
        //初始化硬编码器 - 此处后面会颠倒所以交换输入的宽高
+        mLastDate = new Date(System.currentTimeMillis());
         mHardEncode = new LLAHardEncode(size4.getHeight(),size4.getWidth(),20,this);
+       //开始编码
         mHardEncode.startEncoderThread();
+        mHardEncode.startSendPacketThread();
         //YUV_420_888
         /*此处还有很多格式，比如我所用到YUV等 最大的图片数， 此处设置的就是输出分辨率mImageReader里能获取到图片数，但是实际中是2+1张图片，就是多一张*/
         mImageReader = ImageReader.newInstance(size4.getWidth(), size4.getHeight(), ImageFormat.YUV_420_888,2);
@@ -244,6 +251,8 @@ public ImageReader mImageReader;
         // 根据设备方向计算设置摄像头的方向
         mCaptureRequest.set(CaptureRequest.JPEG_ORIENTATION
                 , getOrientation(rotation));
+//        Range fpsRange = new Range(15,25);
+//        mCaptureRequest.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange);
 
         // 这里一定分别add两个surface，一个Textureview的，一个ImageReader的，如果没add，会造成没摄像头预览，或者没有ImageReader的那个回调！！
         mCaptureRequest.addTarget(surface);
@@ -264,7 +273,17 @@ public ImageReader mImageReader;
          **/
         @Override
         public void onImageAvailable(ImageReader reader) {
-            
+
+//            Log.d(TAG, "onImageAvailable: "+Thread.currentThread());
+            //以下也是在子线程中执行的
+            Date currentDate = new Date(System.currentTimeMillis());//毫秒
+            long intervalTime = currentDate.getTime()-mLastDate.getTime();
+            if (intervalTime < (1.0/20.0)*1000.0){
+                Log.d(TAG, "Camera2- interval is "+intervalTime);
+                return;
+            }
+            mLastDate = currentDate;
+
 
             Image image = reader.acquireNextImage();
             //YUV_420_888格式 ---->获取到的三个通道分别对应YUV (已验证过)
@@ -273,7 +292,7 @@ public ImageReader mImageReader;
             // 从image里获取三个plane
             Image.Plane[] planes = image.getPlanes();
            int format = image.getFormat();
-            Log.d(TAG, "Camera- image format is "+format);//35
+//            Log.d(TAG, "Camera- image format is "+format);//35
 
 
 
@@ -310,16 +329,20 @@ public ImageReader mImageReader;
                 if (mHardEncode.myuvQueue.size() >= 10){
                     mHardEncode.myuvQueue.poll();
                 }
-                mHardEncode.myuvQueue.add(data3);
-            Log.d(TAG, "HardEncode- yuvQueueSize="+mHardEncode.myuvQueue.size()+"currentDataSize="+data3.length);
+
+            try {
+                mHardEncode.myuvQueue.put(data3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            Log.d(TAG, "HardEncode- add a yuv frame"+"yuvQueueSize="+mHardEncode.myuvQueue.size());
 
 //            dumpFile("yuv420_"+width+"_"+height+".yuv",data2);
             image.close();
-
         }
     };
 
-    public native void handleAframeData(byte[] data,int width,int height);
+
 
     private CameraCaptureSession.StateCallback mSessionStateCallback = new CameraCaptureSession.StateCallback() {
 
@@ -391,7 +414,7 @@ public ImageReader mImageReader;
     //别人转换写法
     private static final int COLOR_FormatI420 = 1;
     private static final int COLOR_FormatNV21 = 2;
-    private static Boolean VERBOSE = true;
+    private static Boolean VERBOSE = false;
 
     private  boolean isImageFormatSupported(Image image) {
         int format = image.getFormat();

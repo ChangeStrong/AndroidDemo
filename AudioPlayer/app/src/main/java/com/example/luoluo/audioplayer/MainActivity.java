@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         assetManager = getAssets();
         //初始化ffmpeg
         initffmpeg();
-
         //初始化opensl引擎
         createEngine();
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             AudioManager myAudioMgr = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
             String nativeParam = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE);
-            sampleRate = Integer.parseInt(nativeParam);
+            sampleRate = Integer.parseInt(nativeParam);//48000 16bit存储方式
             nativeParam = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER);
             bufSize = Integer.parseInt(nativeParam);
         }
@@ -59,19 +58,9 @@ public class MainActivity extends AppCompatActivity {
         createBufferQueueAudioPlayer(sampleRate, bufSize);
 
         // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //播放音频文件
-//                startPlay();
-                Log.d(TAG, "start play audio.");
+//        TextView tv = (TextView) findViewById(R.id.sample_text);
+//        tv.setText(stringFromJNI());
 
-                //录音的--播放
-                selectClip(3);
-            }
-        });
 
         Button button = findViewById(R.id.b_recode);
         button.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +73,18 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        Button playButton = findViewById(R.id.b_play);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //播放音频文件
+//                startPlay();
+                Log.d(TAG, "start play audio.");
+                //录音的--播放
+                selectClip(3);
             }
         });
     }
@@ -197,3 +198,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+
+/*
+    android默认采集使用的 48000 16bit存储方式
+    而ffmpeg转码的时候采用 48000 32bit存储方式
+ */

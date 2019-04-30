@@ -10,25 +10,34 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
     }
 
+    public native void initFFmpegUrl(String pushUrl,int size);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+        EditText editText = findViewById(R.id.et_push_url);
+        Button tv = (Button) findViewById(R.id.sample_text);
+        Log.d(TAG, "onCreate: "+String.valueOf(editText.getText()));
+        //初始化ffmpeg
+        this.initFFmpegUrl(String.valueOf(editText.getText()),editText.getText().length());
+
         // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+//        tv.setText(stringFromJNI());
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
